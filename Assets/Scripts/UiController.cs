@@ -2,35 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine.UI; //добавляем для работы с UI
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UiController : MonoBehaviour {
-	[SerializeField] private Text scoreLabel1; //объект, предназначенный для работы с текстом на UI
-	[SerializeField] private Text scoreLabel2;
-	[SerializeField] private WindowT wt; //переменая для работы с окном сообщения о завершении уровня
+	public Text scoreLabel1; //объект, предназначенный для работы с текстом на UI
+	public Text scoreLabel2;
+	public WindowT wt; //переменая для работы с окном сообщения о завершении уровня
 	private int _bullets; //переменая для хранения значения пуль
 	private int _hit; //переменная для отслеживания количества попаданий
 
-	void Awake(){
-		Messenger.AddListener (GameEvent.BULLET, OnEnemyBul); //добавляем подписчика на OnEnemyBul
-		Messenger.AddListener(GameEvent.HIT, OnEnemyHit); 
-	}
-
-	void OnDestory(){
-		Messenger.RemoveListener (GameEvent.BULLET, OnEnemyBul); //удаляем подписчика на OnEnemyBul
-		Messenger.RemoveListener(GameEvent.HIT, OnEnemyHit);
-	}
-
-	// Use this for initialization
 	void Start () {
-		wt.Close ();
+		wt.Close (); // закрываем  окно с сообщением о завершении уровня
 		_bullets = 20;
 		_hit = 0;
 		scoreLabel1.text = _bullets.ToString (); //выводим начальное колличество патронов
-		scoreLabel2.text = _hit.ToString ();
+		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
 	}
 
+	public void Str(int i) // функция для получения сообщений от класса RaySooter
+	{
+		if (i == 1) {
+			OnEnemyBul ();
+		} 
+		else {
+			OnEnemyHit ();
+		}
+	}
 	void OnEnemyBul () { //уменьшаем их при каждом выстреле
-		_bullets -= 1;
+		if (_bullets != 0) {
+			_bullets -= 1;
+		}
 		if (_bullets == 0) {
 			wt.Open ();
 		}
