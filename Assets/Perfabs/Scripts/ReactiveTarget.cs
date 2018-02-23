@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ReactiveTarget : MonoBehaviour {
-	[SerializeField] private ParticleSystem part; //переменная для системы частиц
+	public ParticleSystem part; //переменная для системы частиц
 
 	public void ReactToHit ()
 	{
