@@ -12,7 +12,7 @@ public class ScCotrl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float i = Random.Range (0, 3);
+		int i = Random.Range (0, 3);
 		if (_enemy == null) { //если нет объекта на сцене создаем
 			_enemy = Instantiate (enemy1) as GameObject;
 			//при создании объекта текстура накладывается в процессе игры из папки Resources

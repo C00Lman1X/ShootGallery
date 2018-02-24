@@ -13,6 +13,7 @@ public class Shooter : MonoBehaviour {
             RaycastHit hit;
             Vector3 fwd = transform.TransformDirection(Vector3.forward);
             Physics.Raycast(transform.position, fwd, out hit);
+			iuc.GetComponent<UiController>().Str(1); // вызываем метод в UIController для уменьшения числа пуль
             GameObject hitObject = hit.transform.gameObject; //получаем объект попадания
             Contr cn = hitObject.GetComponent<Contr>(); //проверяем наличие метода, если есть дырку от пули не создаем
             if (cn == null)
