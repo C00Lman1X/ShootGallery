@@ -8,7 +8,7 @@ public class MouseLook : MonoBehaviour {
     public float minVert, maxVert;
     public float minHor, maxHor;
     
-    public Transform target;
+    public GameObject target;
     private Vector3 rotationAngles;
 
     void Start () {
@@ -22,7 +22,14 @@ public class MouseLook : MonoBehaviour {
         transform.eulerAngles = rotationAngles;
         RaycastHit hit;
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
-        if (Physics.Raycast(transform.position, fwd, out hit))
-            target.position = hit.point;
+		if (Physics.Raycast (transform.position, fwd, out hit)) {
+			SpriteRenderer renderer = target.GetComponent<SpriteRenderer>();
+			renderer.enabled = true;
+			target.transform.position = hit.point;
+		}
+		else {
+			SpriteRenderer renderer = target.GetComponent<SpriteRenderer>();
+			renderer.enabled = false;
+		}
     }
 }
