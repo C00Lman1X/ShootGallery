@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScCotrl : MonoBehaviour {
 	[SerializeField] private GameObject enemy1; //переменные для связи с перфабом и слижением за ним на сцене
 	private GameObject _enemy;
+
 	// Use this for initialization
 	void Start () {
 		
