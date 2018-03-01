@@ -12,6 +12,7 @@ public class UiController : MonoBehaviour {
 	public int _bullets; //переменая для хранения значения пуль
 	public int _hit; //переменная для отслеживания количества попаданий
 
+
 	void Start () {
 		wt.Close (); // закрываем  окно с сообщением о завершении уровня
 		scoreLabel1.text = _bullets.ToString (); //выводим начальное колличество патронов
@@ -42,11 +43,15 @@ public class UiController : MonoBehaviour {
 	void OnEnemyHit () { //увеличиваем счетчик попаданий
 		_hit += 1;
 		scoreLabel2.text = _hit.ToString ();
+		if (_hit == 10) {
+			
+		}
+
 	}
 
 	void Exit() {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
-		SceneManager.LoadScene (0);
+		SceneManager.LoadScene (1);
 	}
 }
