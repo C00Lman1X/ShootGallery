@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScCotrl : MonoBehaviour {
-	public GameObject targetPrefab;
+    public GameObject targetPrefab;
     public GameObject ballPrefab;
     public GameObject iuc;
 
     public float MinSpawnDelay;
     public float MaxSpawnDelay;
+    public int BallThreshold;
 
     private string[] textureNames = { "Man", "Mars", "Rob" };
     private float timeTillNextSpawns;
     
-	void Start () {
+    void Start () {
         timeTillNextSpawns = MinSpawnDelay;
     }
 
@@ -32,7 +33,6 @@ public class ScCotrl : MonoBehaviour {
 
     void SpawnBall()
     {
-        Debug.Log("Spawning ball");
         var enemy = Instantiate(ballPrefab);
 
         float pos_x = Random.Range(0.0f, 8.0f);
@@ -43,16 +43,15 @@ public class ScCotrl : MonoBehaviour {
         iuc.GetComponent<UiController>().targetCount++;
     }
     
-	void Update () {
+    void Update () {
         timeTillNextSpawns -= Time.deltaTime;
         if (timeTillNextSpawns <= 0f)
         {
-            if (iuc.GetComponent<UiController>().targetCount < 5)
+            if (iuc.GetComponent<UiController>().targetCount < BallThreshold)
                 SpawnTarget();
             else
                 SpawnBall();
             timeTillNextSpawns = Random.Range(MinSpawnDelay, MaxSpawnDelay);
-            Debug.Log("Next will be spawned in " + timeTillNextSpawns.ToString() + "sec");
         }
-	}
+    }
 }
