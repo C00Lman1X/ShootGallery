@@ -3,42 +3,56 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ScCotrl : MonoBehaviour {
-	[SerializeField] private GameObject enemy1; //переменные для связи с перфабом и слижением за ним на сцене
-	private GameObject _enemy;
-	public GameObject iuc;
-	bool liveObject = false;
+	public GameObject targetPrefab;
+    public GameObject ballPrefab;
+    public GameObject iuc;
 
-	// Use this for initialization
+    public float MinSpawnDelay;
+    public float MaxSpawnDelay;
+
+    private string[] textureNames = { "Man", "Mars", "Rob" };
+    private float timeTillNextSpawns;
+    
 	void Start () {
-		
-	}
+        timeTillNextSpawns = MinSpawnDelay;
+    }
 
-	bool Hit_ten()
-	{
-		if (iuc.GetComponent<UiController> ()._hit == 10) {liveObject = true;}
-		return liveObject;
-	}
-	// Update is called once per frame
+    void SpawnTarget() {
+        var enemy = Instantiate (targetPrefab);
+
+        int i = Random.Range(0, 3);
+        enemy.GetComponent<Renderer>().material.mainTexture = Resources.Load(textureNames[i]) as Texture;
+        
+        float pos_x = Random.Range(0.0f, 8.0f);
+        float pos_z = Random.Range(0.0f, 17.0f);
+        enemy.transform.position = new Vector3(pos_x, 3.03f, pos_z);
+
+        iuc.GetComponent<UiController>().targetCount++;
+    }
+
+    void SpawnBall()
+    {
+        Debug.Log("Spawning ball");
+        var enemy = Instantiate(ballPrefab);
+
+        float pos_x = Random.Range(0.0f, 8.0f);
+        float pos_z = Random.Range(0.0f, 17.0f);
+        var ballController = enemy.GetComponent<BallController>();
+        ballController.EndPosition = new Vector3(pos_x, 3.03f, pos_z);
+
+        iuc.GetComponent<UiController>().targetCount++;
+    }
+    
 	void Update () {
-		int i = Random.Range (0, 3);
-		if (_enemy == null & Hit_ten () == false) { //если нет объекта на сцене создаем
-			_enemy = Instantiate (enemy1) as GameObject;
-			//при создании объекта текстура накладывается в процессе игры из папки Resources
-			if (i == 0) {
-				_enemy.GetComponent<Renderer> ().material.mainTexture = Resources.Load ("Man") as Texture;
-			}
-			if (i == 1) {
-				_enemy.GetComponent<Renderer> ().material.mainTexture = Resources.Load ("Mars") as Texture;
-			}
-			if (i == 2) {
-				_enemy.GetComponent<Renderer> ().material.mainTexture = Resources.Load ("Rob") as Texture;
-			}
-			//устанавливаем кардинаты
-			float pos_x = Random.Range (0.0f, 8.0f);
-			float pos_z = Random.Range (0.0f, 17.0f);
-			_enemy.transform.position = new Vector3 (pos_x, 3.03f, pos_z);
-			Destroy (_enemy, 1f); //через некоторое время удалить объект
-		} 
-
+        timeTillNextSpawns -= Time.deltaTime;
+        if (timeTillNextSpawns <= 0f)
+        {
+            if (iuc.GetComponent<UiController>().targetCount < 5)
+                SpawnTarget();
+            else
+                SpawnBall();
+            timeTillNextSpawns = Random.Range(MinSpawnDelay, MaxSpawnDelay);
+            Debug.Log("Next will be spawned in " + timeTillNextSpawns.ToString() + "sec");
+        }
 	}
 }

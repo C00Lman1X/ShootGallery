@@ -1,30 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ReactiveTarget : MonoBehaviour {
-	public ParticleSystem part; //переменная для системы частиц
+	public ParticleSystem part;
 	public void ReactToHit ()
 	{
-		StartCoroutine (Die ()); //Die
+		StartCoroutine (Die ());
 	}
 
 	private IEnumerator Die ()
 	{
-
-		part.Play (); //запускаем систему частиц после попадания в объект
-		yield return new WaitForSeconds (0.5f); // после попадания ждем 0,5 сек
-		Destroy (this.gameObject); // удаляем объект
+        if (part != null)
+            part.Play();
+        else
+            transform.DOShakePosition(0.5f);
+		yield return new WaitForSeconds (0.5f);
+		Destroy (this.gameObject);
 
 	}
-
-	// Use this for initialization
+    
 	void Start () {
-		part.Stop (); //останавливаем выполнение системы частиц на время старта
-
+        if (part != null)
+		    part.Stop ();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
