@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shooter : MonoBehaviour {
 
-    public GameObject iuc;
+    public UiController iuc;
     public GameObject dec;
 
     void Update () {
@@ -13,7 +13,7 @@ public class Shooter : MonoBehaviour {
             RaycastHit hit;
             Vector3 fwd = transform.TransformDirection(Vector3.forward);
 			if (Physics.Raycast (transform.position, fwd, out hit)) {
-				iuc.GetComponent<UiController> ().Str (1); // вызываем метод в UIController для уменьшения числа пуль
+                iuc.EnemyBul(); // вызываем метод в UIController для уменьшения числа пуль
 				GameObject hitObject = hit.transform.gameObject; //получаем объект попадания
 				Contr cn = hitObject.GetComponent<Contr> (); //проверяем наличие метода, если есть дырку от пули не создаем
 				if (cn == null) {
@@ -25,7 +25,7 @@ public class Shooter : MonoBehaviour {
 				}
 				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();//проверяем есть ли метод ReactiveTarget
 				if (target != null) {
-					iuc.GetComponent<UiController> ().Str (2); // вызываем метод в UIController для увеличения числа попаданий в мишень
+					iuc.EnemyHit(); // вызываем метод в UIController для увеличения числа попаданий в мишень
 					target.ReactToHit ();
 				}
 			}

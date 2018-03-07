@@ -20,17 +20,7 @@ public class UiController : MonoBehaviour {
 		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
 	}
 
-	public void Str(int i) // функция для получения сообщений от класса RaySooter
-	{
-		if (i == 1) {
-			OnEnemyBul ();
-		} 
-		else {
-			OnEnemyHit ();
-            targetCount--;
-        }
-	}
-	void OnEnemyBul () { //уменьшаем их при каждом выстреле
+	public void EnemyBul () { //уменьшаем их при каждом выстреле
 		if (_bullets != 0) {
 			_bullets -= 1;
 		}
@@ -42,7 +32,8 @@ public class UiController : MonoBehaviour {
 		scoreLabel1.text = _bullets.ToString ();
 	}
 
-	void OnEnemyHit () { //увеличиваем счетчик попаданий
+	public void EnemyHit () { //увеличиваем счетчик попаданий
+        targetCount--;
 		_hit += 1;
 		scoreLabel2.text = _hit.ToString ();
 		if (_hit == 10) {
@@ -50,6 +41,11 @@ public class UiController : MonoBehaviour {
 		}
 
 	}
+
+    public void HitCharacter(float damage)
+    {
+        // TODO: уменьшение жизней
+    }
 
 	void Exit() {
 		Cursor.lockState = CursorLockMode.None;

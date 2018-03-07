@@ -27,7 +27,7 @@ public class RaySooter : MonoBehaviour {
             fg.OnFire(); //включаем MuzzleFlash
             GetComponent<AudioSource>().PlayOneShot(Fire); //проигрываем звук выстрела
 
-            iuc.GetComponent<UiController>().Str(1); //вызываем метод в UIController для уменьшения числа пуль
+            iuc.GetComponent<UiController>().EnemyBul(); //вызываем метод в UIController для уменьшения числа пуль
 			Vector3 point = new Vector3 (_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
 			Ray ray = _camera.ScreenPointToRay (point);
 			RaycastHit hit;          
@@ -44,7 +44,7 @@ public class RaySooter : MonoBehaviour {
 				} 
 				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();//проверяем есть ли метод ReactiveTarget
 				if (target != null) { 
-					iuc.GetComponent<UiController> ().Str (2); // вызываем метод в UIController для увеличения числа попаданий в мишень
+					iuc.GetComponent<UiController> ().EnemyHit(); // вызываем метод в UIController для увеличения числа попаданий в мишень
 					target.ReactToHit ();
 				} 
 			}

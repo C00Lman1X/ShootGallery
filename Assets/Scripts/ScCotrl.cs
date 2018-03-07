@@ -16,6 +16,7 @@ public class ScCotrl : MonoBehaviour {
     
     void Start () {
         timeTillNextSpawns = MinSpawnDelay;
+        //SpawnBall();
     }
 
     void SpawnTarget() {

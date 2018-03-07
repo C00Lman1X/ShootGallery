@@ -7,8 +7,11 @@ public class BallController : MonoBehaviour {
 
     public Vector3 EndPosition;
     public Transform cameraPos;
+    public float ShootInterval;
+    public UiController ui;
 
     private float notFloatingTime = 1f;
+    private float notShootedTime = 0f;
     private float movingTime = 0f;
     private float startTime;
 
@@ -30,15 +33,25 @@ public class BallController : MonoBehaviour {
             transform.Translate(new Vector3(0f, 0.05f * Mathf.Sin(localTime), 0f));
         }
 
-        if (movingTime <= 0f)
+        if (movingTime > 0f)
+            movingTime -= Time.deltaTime;
+        else
         {
             Vector3 newPos = new Vector3(Random.Range(minRange.x, maxRange.x), Random.Range(minRange.y, maxRange.y), Random.Range(minRange.z, maxRange.z));
             movingTime = Random.Range(0.5f, 1.5f);
             transform.DOMove(newPos, movingTime);
         }
+
+        if (notShootedTime < ShootInterval)
+        {
+            notShootedTime += Time.deltaTime;
+            float currentRedColor = Mathf.Lerp(0f, 1f, notShootedTime / ShootInterval);
+            GetComponentInChildren<Renderer>().material.SetVector("_Color", new Vector4(currentRedColor, 0f, 0f, 1f));
+        }
         else
         {
-            movingTime -= Time.deltaTime;
+            notShootedTime = 0f;
+            ui.HitCharacter(0.1f);
         }
 
         transform.LookAt(cameraPos);
