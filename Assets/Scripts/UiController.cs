@@ -16,6 +16,7 @@ public class UiController : MonoBehaviour {
 
 
     void Start () {
+		wt.Close ();
 		scoreLabel1.text = _bullets.ToString (); //выводим начальное колличество патронов
 		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
 	}

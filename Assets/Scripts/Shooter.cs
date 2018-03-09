@@ -22,6 +22,10 @@ public class Shooter : MonoBehaviour {
 					hitObjectP.transform.position = hit.point + hit.normal * 0.01f;
 					hitObjectP.transform.rotation = Quaternion.LookRotation (-hit.normal);
 					hitObjectP.transform.SetParent (hit.transform); //назначаем родителем объект попадания
+					Rigidbody r = hit.transform.gameObject.GetComponent<Rigidbody>(); //проверяем наличие 
+					if (r != null) {
+						r.AddForceAtPosition(-hit.normal * 100f, hit.point);
+					}
 				}
 				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();//проверяем есть ли метод ReactiveTarget
 				if (target != null) {
