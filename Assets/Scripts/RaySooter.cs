@@ -8,24 +8,18 @@ public class RaySooter : MonoBehaviour {
 	[SerializeField] private GameObject dec;//переменная для дырки от пули
 	[SerializeField] private Texture2D aim; //переменная для текстуры
 	[SerializeField] private GameObject iuc; //переменная для объекта UI
-    public FireGun fg; //переменная для работы с огнем выстрела
-    public AudioClip Fire; //перменная для работы со звуком выстрела
 
     void Start () {
 		_camera = GetComponent<Camera> ();//получаем доступ к присоединенным компонентам
 
 		Cursor.lockState = CursorLockMode.Locked; //скрываем указатель мыши
 		Cursor.visible = false;
-        fg.OffFire(); //выключаем MuzzleFlash
     }
 
 
 	void Update () {
 
             if (Input.GetMouseButtonDown (0)) { //после нажатия кнопки выпускаем луч из центра экрана
-
-            fg.OnFire(); //включаем MuzzleFlash
-            GetComponent<AudioSource>().PlayOneShot(Fire); //проигрываем звук выстрела
 
             iuc.GetComponent<UiController>().EnemyBul(); //вызываем метод в UIController для уменьшения числа пуль
 			Vector3 point = new Vector3 (_camera.pixelWidth / 2, _camera.pixelHeight / 2, 0);
@@ -49,7 +43,6 @@ public class RaySooter : MonoBehaviour {
 				} 
 			}
         }
-        else fg.OffFire(); //выключаем MuzzleFlash
     }
  }
  

@@ -4,27 +4,20 @@ using UnityEngine;
 
 public class CylinderSpawn : MonoBehaviour {
 
-    public Transform cylinder;
-    //public CylinderMovement cylinderMovementCS;
-
-    void Start () {
-		
-	}
-	
+    public Transform cylinder; //переменная для работы с позиией гильзы
+    public AudioClip Fire; //перменная для работы со звуком выстрела
+    
 	void Update () {
 
-       // Vector3 pos = transform.position + transform.forward;
-		if(Input.GetMouseButtonDown(0))
+   		if(Input.GetMouseButtonDown(0))
         {
-            Transform CylinderInstance = (Transform) Instantiate(cylinder, GameObject.Find("CylinderSpawnPoint").transform.position, Quaternion.identity);
-            //GameObject cylinder = Instantiate(GameObject.Find("CylinderSpawnPoint"), pos, Quaternion.identity) as GameObject;
-            CylinderMovement cylinderMovementCS = cylinder.GetComponent<CylinderMovement>();
-            //cylinderMovementCS._transform = transform;
+            
+            Transform CylinderInstance = (Transform) Instantiate(cylinder, GameObject.Find("CylinderSpawnPoint").transform.position, Quaternion.identity); // находим GameObjec "CylinderSpawnPoint"  с позицией нашей гильзы
+            CylinderMovement cylinderMovementCS = cylinder.GetComponent<CylinderMovement>(); //снимаем скрипт с гильзы
+            cylinderMovementCS._transform = transform; //передаем позицию нашей гильзы
             //cylinder.transform.up = -transform.forward;
 
-            
-
-
+            GetComponent<AudioSource>().PlayOneShot(Fire); //проигрываем звук выстрела
         }
-	}
+    }
 }
