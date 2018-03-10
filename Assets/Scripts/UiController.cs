@@ -48,9 +48,23 @@ public class UiController : MonoBehaviour {
         // TODO: уменьшение жизней
     }
 
+
+    //Переключение между уровнями
 	void Exit() {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
-		SceneManager.LoadScene (0);
+        string i = SceneManager.GetActiveScene().name;
+        if (i == "1")
+        {
+            SceneManager.LoadScene(3);
+        }
+        else if (i == "2")
+        {
+            SceneManager.LoadScene(4);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
 	}
 }
