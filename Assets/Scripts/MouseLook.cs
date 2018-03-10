@@ -29,7 +29,7 @@ public class MouseLook : MonoBehaviour {
 		}
 		else {
 			SpriteRenderer renderer = target.GetComponent<SpriteRenderer>();
-			renderer.enabled = true;
+			renderer.enabled = false;
 		}
     }
 }

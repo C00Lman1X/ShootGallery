@@ -51,6 +51,6 @@ public class UiController : MonoBehaviour {
 	void Exit() {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
-		SceneManager.LoadScene (1);
+		SceneManager.LoadScene (0);
 	}
 }

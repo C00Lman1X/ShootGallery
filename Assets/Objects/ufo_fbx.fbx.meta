@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 736fdddfb2fd23a419c7f62a25dde989
-timeCreated: 1520520679
+timeCreated: 1520664575
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -22,8 +22,6 @@ ModelImporter:
     3300002: pTorus1
     4300000: pSphere1
     4300002: pTorus1
-    6400000: pSphere1
-    6400002: pTorus1
     9500000: //RootNode
   externalObjects: {}
   materials:

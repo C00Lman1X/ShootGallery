@@ -28,9 +28,14 @@ public class Shooter : MonoBehaviour {
 					}
 				}
 				ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();//проверяем есть ли метод ReactiveTarget
+				ControlUFO ufo = hitObject.GetComponent<ControlUFO>();
 				if (target != null) {
-					iuc.EnemyHit(); // вызываем метод в UIController для увеличения числа попаданий в мишень
+					iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
 					target.ReactToHit ();
+				} 
+				else if (ufo != null) {
+					iuc.EnemyHit ();
+					ufo.ReactToHit1 ();
 				}
 			}
         }
