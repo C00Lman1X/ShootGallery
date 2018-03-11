@@ -11,12 +11,13 @@ public class UiController : MonoBehaviour {
 	public WindowT wt; //переменая для работы с окном сообщения о завершении уровня
 	public int _bullets; //переменая для хранения значения пуль
 	public int _hit; //переменная для отслеживания количества попаданий
-
     public int targetCount = 0; // количество противников на сцене
+	public UnityEvent EndLevel;
 
 
     void Start () {
-		wt.Close ();
+		
+		//wt.Close ();
 		scoreLabel1.text = _bullets.ToString (); //выводим начальное колличество патронов
 		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
 	}
@@ -26,9 +27,10 @@ public class UiController : MonoBehaviour {
 			_bullets -= 1;
 		}
 		if (_bullets == 0) {
-			wt.Open ();
+			EndLevel.Invoke ();
+			//wt.Open ();
 
-			Invoke ("Exit", 3f);
+			//Invoke ("Exit", 3f);
 		}
 		scoreLabel1.text = _bullets.ToString ();
 	}
@@ -37,9 +39,7 @@ public class UiController : MonoBehaviour {
         targetCount--;
 		_hit += 1;
 		scoreLabel2.text = _hit.ToString ();
-		if (_hit == 10) {
-			
-		}
+
 
 	}
 
@@ -50,10 +50,10 @@ public class UiController : MonoBehaviour {
 
 
     //Переключение между уровнями
-	void Exit() {
+	public void Exit(string i) {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
-        string i = SceneManager.GetActiveScene().name;
+        //string i = SceneManager.GetActiveScene().name;
         if (i == "1")
         {
             SceneManager.LoadScene(3);
