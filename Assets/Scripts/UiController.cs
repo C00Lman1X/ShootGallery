@@ -50,28 +50,18 @@ public class UiController : MonoBehaviour {
 
 
     //Переключение между уровнями
-	public void Exit(string i, bool victory) {
+	public void Exit(string i) {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
         //string i = SceneManager.GetActiveScene().name;
-		if (i == "1" && victory == true) {
-			SceneManager.LoadScene (3);
-		} 
-		else if (i == "1" && victory == false) {
-			SceneManager.LoadScene (1);
-		} 
-		else if (i == "2" && victory == true) {
-			SceneManager.LoadScene (4);
-		} 
-		else if (i == "2" && victory == false) {
-			SceneManager.LoadScene (3);
-		} 
-		else if (i == "3" && victory == true) {
-			SceneManager.LoadScene (0);
-		} 
-		else if (i == "3" && victory == false) {
-			SceneManager.LoadScene(4);
-		}
+        if (i == "1")
+        {
+            SceneManager.LoadScene(3);
+        }
+        else if (i == "2")
+        {
+            SceneManager.LoadScene(4);
+        }
         else
         {
             SceneManager.LoadScene(0);

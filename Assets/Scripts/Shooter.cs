@@ -28,12 +28,16 @@ public class Shooter : MonoBehaviour {
 					}
 					ReactiveTarget target = hitObject.GetComponent<ReactiveTarget> ();//проверяем есть ли метод ReactiveTarget
 					ControlUFO ufo = hitObject.GetComponent<ControlUFO> ();
-					if (target != null) {
+                    Barreling barell = hitObject.GetComponent<Barreling>();//проверяем есть ли метод Barreling
+                    if (target != null) {
 						iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
 						target.ReactToHit ();
 					} else if (ufo != null) {
 						iuc.EnemyHit ();
 						ufo.ReactToHit1 ();
+					} else if (barell != null) {
+						iuc.EnemyHit ();
+                        barell.ReactToHitBarrel ();
 					}
 				}
 			}

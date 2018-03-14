@@ -15,7 +15,7 @@ public class ReactiveTarget : MonoBehaviour {
         if (part != null)
             part.Play();
         else
-            transform.DOShakePosition(0.5f);
+        transform.DOShakePosition(0.5f);
 		yield return new WaitForSeconds (0.5f);
 		Destroy (this.gameObject);
 
