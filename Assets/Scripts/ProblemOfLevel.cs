@@ -11,6 +11,7 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 	public GameObject Gun;
 	int ButtonOkOr; 
 	string Level;
+	bool victory;
 
 
 	// Use this for initialization
@@ -37,7 +38,7 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 			Cursor.visible = false;
 		} 
 		else if (ButtonOkOr == 1) { //если по ОК щелчок второй, значит окно выводилось второй раз и оно завершает уровень
-			GetComponent<UiController> ().Exit (Level);//вызываем метод смены уровней
+			GetComponent<UiController> ().Exit (Level, victory);//вызываем метод смены уровней
 		}
 	}
 
@@ -46,27 +47,52 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 		if (i == "1") {  //все для первого уровня
 			if (ButtonOkOr == 0) {
 				instr.text = "Превый уровень. Твоя задача попасть по голограммам мишеней и летающим шарам," +
-				"опередив выстрел последних. Уровень защитывается, если ты не потеряешь все очки жизни.";
+				"опередив выстрел последних. Уровень защитывается, если ты не потеряешь все очки жизни " +
+				"и попадешь не менее 15 раз.";
 			} 
 			else if (ButtonOkOr == 1){
-				instr.text = "Первый уровень пройден! Твой результат: попаданий " + this.GetComponent<UiController> ()._hit + " из 20 возможных";
+				if (this.GetComponent<UiController> ()._hit >= 15) {
+					instr.text = "Первый уровень пройден! Твой результат: попаданий " + this.GetComponent<UiController> ()._hit;
+					victory = true;
+				} 
+				else {
+					instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
+						"Попробуй еще раз. Твой результат: попаданий " + this.GetComponent<UiController> ()._hit;
+					victory = false;
+				}
 			}
 		}
 		if (i == "2") { //инструкция для вторго уровня
 			if (ButtonOkOr == 0) {
-				instr.text = "Второй уровень. Твоя задача за пол минуты найти и сбить мишени (бочки)";
+				instr.text = "Второй уровень. Твоя задача за одну 30 секунд найти и сбить не менее 14 мишеней (бочки)";
 			} 
 			else if (ButtonOkOr == 1){
-				instr.text = "Второй уровень пройден! Твой результат: сбитых мишеней " + this.GetComponent<UiController> ()._hit;
+				if (this.GetComponent<UiController> ()._hit >= 14) {
+					instr.text = "Второй уровень пройден! Твой результат: сбитых мишеней " + this.GetComponent<UiController> ()._hit;
+					victory = true;
+				} 
+				else {
+					instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
+						"Попробуй еще раз. Твой результат: сбитых мишеней " + this.GetComponent<UiController> ()._hit;
+					victory = false;
+				}
 			}
 		}
 
 		if (i == "3") { //инструкция для первого уровня
 			if (ButtonOkOr == 0) {
-				instr.text = "Третий уровень. Твоя задача за одну минуту сбить как можно больше летающих тарелок";
+				instr.text = "Третий уровень. Твоя задача за одну минуту cбить не менее 10 летающих тарелок";
 			} 
 			else if (ButtonOkOr == 1){
-				instr.text = "Третий уровень пройден! Твой результат: сбитых тарелок " + this.GetComponent<UiController> ()._hit;
+				if (this.GetComponent<UiController> ()._hit >= 15) {
+					instr.text = "Третий уровень пройден! Твой результат: сбитых тарелок " + this.GetComponent<UiController> ()._hit;
+					victory = true;
+				} 
+				else {
+					instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
+						"Попробуй еще раз. Твой результат: попаданий " + this.GetComponent<UiController> ()._hit;
+					victory = false;
+				}
 			}
 		}
 	}
