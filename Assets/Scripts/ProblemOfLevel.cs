@@ -12,17 +12,27 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 	int ButtonOkOr; 
 	string Level;
 	bool victory;
+	int index;
 
 
 	// Use this for initialization
 	void Start () { 
-		ButtonOkOr = 0; //переменная для хранения кол-ва щелчков по кнопке ОК
-		Time.timeScale = 0; //останавливаем сцену на время изучения инструкции
-		Gun.SetActive (false); //отключаем пистолет, т.к. предыдущая строчка на него не сработала)
-		Cursor.lockState = CursorLockMode.None; //делаем видимым курсор
-		Cursor.visible = true;
+		index = PlayerPrefs.GetInt ("continue"); //проверяем игра новая или надо загружать
 		Level = SceneManager.GetActiveScene().name; //получаем имя загруженной сцены (пригодится)
-		GameEvent (Level); //функция сортировки заданий по уровням
+		ButtonOkOr = 0; //переменная для хранения кол-ва щелчков по кнопке ОК
+		if (index == 1) { //если index == 1 то загружается сохранение
+			wt.Close (); //закрываем диалоговое окно
+			PlayerPrefs.DeleteKey ("continue");//удаляем временный ключ из реестра
+			GetComponent<Menu>().Load ();//вызываем метод загрузки сохранений
+			TaskOnClick (); //работаем далее
+		}
+		else{
+			Time.timeScale = 0; //останавливаем сцену на время изучения инструкции
+			Gun.SetActive (false); //отключаем пистолет, т.к. предыдущая строчка на него не сработала)
+			Cursor.lockState = CursorLockMode.None; //делаем видимым курсор
+			Cursor.visible = true;
+			GameEvent (Level); //функция сортировки заданий по уровням
+		}
 
 	}
 

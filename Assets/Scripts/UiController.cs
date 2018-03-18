@@ -22,6 +22,7 @@ public class UiController : MonoBehaviour {
 		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
 	}
 
+
 	public void EnemyBul () { //уменьшаем их при каждом выстреле
 		if (_bullets != 0) {
 			_bullets -= 1;
