@@ -3,46 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+
 
 public class Menu : MonoBehaviour {
 	public WindowT windowMenu;
 	public GameObject Gun;
-	string nameScene;
 	bool pause = false;
-
-	[System.Serializable] 
-	public class Value //сериализованный класс для работы с потоком даных, где будем хранить сохраненые значения
-	{
-		public int Hit
-		{
-			get{return hit;}
-			set{ hit = value;}
-		}
-		public int Bullet
-		{
-			get{return bullet;}
-			set{ bullet = value;}
-		}
-		public float Minute
-		{
-			get{return minute;}
-			set{ minute = value;}
-		}
-		public float Second
-		{
-			get{return second;}
-			set{ second = value;}
-		}
-
-		int hit;
-		int bullet;
-		float minute;
-		float second;
-
-
-	}
+	string nameUser;
+	List<string> ls;
 		
 	// Use this for initialization
 	void Start () {
@@ -78,53 +46,33 @@ public class Menu : MonoBehaviour {
 
 	public void Save() //сохраняем игру
 	{
-		Value vl = new Value (); //экземпляр класса
 		//заносит туда параметры, которые хотим сохранить
-		vl.Hit = GetComponent<UiController> ()._hit; //число попаданий
-		vl.Bullet = GetComponent<UiController> ()._bullets; //кол-во пуль
-		vl.Minute = GetComponent<MyTimer> ().startMinute;//минуты и секунды
-		vl.Second = GetComponent<MyTimer> ().startSecond;
-		if(!Directory.Exists(Application.dataPath + "/Saves")){ //проверяем, есть ли директория, если нет - создаем
-			Directory.CreateDirectory (Application.dataPath + "/Saves");
-		}
-		FileStream fs = new FileStream (Application.dataPath + "/Saves/gameSave.sv", FileMode.Create);//открываем поток для работы бинарными данными
-		BinaryFormatter format = new BinaryFormatter (); //форматор для сериализации данных
-		format.Serialize (fs, vl); //заносим данные в поток
-		fs.Close ();//закрываем поток
-		nameScene = SceneManager.GetActiveScene ().name;
-		PlayerPrefs.SetString ("NameScene", nameScene);//заносим имя текущей сцены в реестр
+		SaveUsers su = new SaveUsers();
+		su.Hit = GetComponent<UiController> ()._hit; //число попаданий
+		su.Bullet = GetComponent<UiController> ()._bullets; //кол-во пуль
+		su.Minute = GetComponent<MyTimer> ().startMinute;//минуты и секунды
+		su.Second = GetComponent<MyTimer> ().startSecond;
+		su.Scene = SceneManager.GetActiveScene().name;
+		WriteUserOnDisk.SaveUser (su);
+
 	}
 
 	public void Load() //загрузка сохраненных данных
 	{
-		if (File.Exists (Application.dataPath + "/Saves/gameSave.sv")) { //проверяем, есть ли файл сохранения
-			FileStream fs = new FileStream (Application.dataPath + "/Saves/gameSave.sv", FileMode.Open); //открываем поток
-			BinaryFormatter format = new BinaryFormatter (); //форматор для сериализации
-			try{ 
-				Value vl = (Value)format.Deserialize(fs); //десериализуем нашу информацию
-				//задаем параметры
-				GetComponent<UiController> ()._hit = vl.Hit; 
-				GetComponent<UiController> ()._bullets = vl.Bullet;
-				GetComponent<MyTimer> ().startMinute = vl.Minute;
-				GetComponent<MyTimer> ().startSecond = vl.Second;
-				GetComponent<UiController>().scoreLabel1.text = vl.Bullet.ToString(); //отображаем значения для пользователя
-				GetComponent<UiController>().scoreLabel2.text = vl.Hit.ToString();
-
-
-			}
-			catch (System.Exception e){
-				Debug.Log (e.Message); //если возникла ошибка на этапе десериализации
-			}
-			finally{
-				fs.Close ();
-			}
-		} 
-		else {
-			Application.Quit ();//при фатальной ошибке, выходим из игры
-		}
+		nameUser = PlayerPrefs.GetString ("NameGame");
+		SaveUsers su = ReadUserWithDisk.ReturnSaveUsers (nameUser);
+		//задаем параметры
+		GetComponent<UiController> ()._hit = su.Hit; 
+		GetComponent<UiController> ()._bullets = su.Bullet;
+		GetComponent<MyTimer> ().startMinute = su.Minute;
+		GetComponent<MyTimer> ().startSecond = su.Second;
+		GetComponent<UiController>().scoreLabel1.text = su.Bullet.ToString(); //отображаем значения для пользователя
+		GetComponent<UiController>().scoreLabel2.text = su.Hit.ToString();
 	}
+
 	public void ExitMenu() //выходим в главное меню
 	{
+		PlayerPrefs.DeleteKey ("NameGame");
 		SceneManager.LoadScene(0);
 	}
 }
