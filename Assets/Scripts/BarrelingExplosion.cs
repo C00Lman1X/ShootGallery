@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Barreling : MonoBehaviour {
+public class BarrelingExplosion : MonoBehaviour {
 
     public ParticleSystem part;
-    public void ReactToHitBarrel() //реакция на удар
+
+    public void ReactToHitBarrelExplosion() //реакция на удар
     {
         StartCoroutine(Die());
     }
@@ -14,20 +15,17 @@ public class Barreling : MonoBehaviour {
     {
         if (part != null)
             part.Play();
-        else
-        yield return new WaitForSeconds(0.5f);
-        Destroy(this.gameObject);
 
+        else
+            yield return new WaitForSeconds(0.5f);
+
+        Boom.Instance.Explosion(transform.position);
+        Destroy(this.gameObject);
     }
 
     void Start()
     {
         if (part != null)
             part.Stop();
-    }
-
-    void Update()
-    {
-
     }
 }

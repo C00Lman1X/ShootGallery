@@ -73,6 +73,14 @@ public class UiController : MonoBehaviour {
 		else if (i == "3" && victory == false) {
 			SceneManager.LoadScene(4);
 		}
+        else if (i == "4" && victory == true)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else if (i == "4" && victory == false)
+        {
+            SceneManager.LoadScene(5);
+        }
         else
         {
             SceneManager.LoadScene(0);

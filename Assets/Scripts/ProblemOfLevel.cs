@@ -74,17 +74,18 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 		}
 		if (i == "2") { //инструкция для вторго уровня
 			if (ButtonOkOr == 0) {
-				instr.text = "Второй уровень. Твоя задача за одну 30 секунд найти и сбить не менее 14 мишеней (бочки)";
+				instr.text = "Второй уровень. Твоя задача за 30 секунд найти и сбить не менее 14 мишеней (бочки)";
 			} 
 			else if (ButtonOkOr == 1){
 				if (this.GetComponent<UiController> ()._hit >= 14) {
-					instr.text = "Второй уровень пройден! Твой результат: сбитых мишеней " + this.GetComponent<UiController> ()._hit;
-					victory = true;
+                    instr.text = "Второй уровень пройден! Твой результат: " + this.GetComponent<UiController>()._hit + " уничтоженных бочек";
+                    victory = true;
 				} 
 				else {
-					instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
-						"Попробуй еще раз. Твой результат: сбитых мишеней " + this.GetComponent<UiController> ()._hit;
-					victory = false;
+                    instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
+                        "Попробуй еще раз. Твой результат: " + this.GetComponent<UiController>()._hit + " попаданий";
+
+                    victory = false;
 				}
 			}
 		}
@@ -105,7 +106,30 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 				}
 			}
 		}
-	}
+
+        if (i == "4")
+        { //инструкция для первого уровня
+            if (ButtonOkOr == 0)
+            {
+                instr.text = "Четвертый уровень!\n Твоя задача за одну минуту найти и сбить не менее 15 бочек.\n" +
+                     "Постарайся следить куда отлетают бочки.\n\n PS: синие бочки нас к победе не приведут.";
+            }
+            else if (ButtonOkOr == 1)
+            {
+                if (this.GetComponent<UiController>()._hit >= 15)
+                {
+                    instr.text = "Четвертый уровень пройден! Твой результат: " + this.GetComponent<UiController>()._hit + " уничтоженных бочек";
+                    victory = true;
+                }
+                else
+                {
+                    instr.text = "Увы. ты проиграл, но никогда не поздно отыграться! " +
+                        "Попробуй еще раз. Твой результат: " + this.GetComponent<UiController>()._hit + " попаданий";
+                    victory = false;
+                }
+            }
+        }
+    }
 
 	public void EndLevel1() //функция, получающая сообщение, что уровень пора заканчивать (толи время истекло, толи еще что)
 	{
