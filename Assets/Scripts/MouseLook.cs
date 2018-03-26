@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MouseLook : MonoBehaviour {
 	public float sensitivitHor = 9.0f;
 	public float sensitivitVert = 9.0f;
     public float minVert, maxVert;
     public float minHor, maxHor;
+	//
+	public float speed = 10f;
+	Vector3 CD = new Vector3 (0f, 0f, 0f);
+	Transform transObject;
+
 
 
     public GameObject target;
@@ -29,7 +35,7 @@ public class MouseLook : MonoBehaviour {
 				target.transform.position = hit.point;
 			} else {
 				SpriteRenderer renderer = target.GetComponent<SpriteRenderer> ();
-				renderer.enabled = false;
+			    renderer.enabled = false;
 			}
     }
 }

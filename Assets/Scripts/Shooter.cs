@@ -12,8 +12,9 @@ public class Shooter : MonoBehaviour {
 			if (Input.GetMouseButtonDown (0)) {
 				RaycastHit hit;
 				Vector3 fwd = transform.TransformDirection (Vector3.forward);
+			    iuc.EnemyBul (); // вызываем метод в UIController для уменьшения числа пуль
 				if (Physics.Raycast (transform.position, fwd, out hit)) {
-					iuc.EnemyBul (); // вызываем метод в UIController для уменьшения числа пуль
+					
 					GameObject hitObject = hit.transform.gameObject; //получаем объект попадания
 					Contr cn = hitObject.GetComponent<Contr> (); //проверяем наличие метода, если есть дырку от пули не создаем
 					if (cn == null) {

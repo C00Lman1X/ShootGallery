@@ -8,6 +8,9 @@ public class ControlUFO : MonoBehaviour {
 	public ParticleSystem part;
 	public float speed;
 	public bool LeftOrRight = false;
+	RaycastHit hit;
+	Vector3 fwd;
+
 	public void ReactToHit1 ()
 	{
 		StartCoroutine (Die ());
@@ -34,9 +37,23 @@ public class ControlUFO : MonoBehaviour {
 		}
 		speed = 1f;
 	}
-	
+
+	void Update(){
+		
+	}
 	// Update is called once per frame
 	void FixedUpdate () {
+		fwd = transform.TransformDirection (Vector3.right);
+		if (Physics.Raycast (transform.position, fwd, out hit)) {
+			GameObject hitObject = hit.transform.gameObject;
+			Contr cn = hitObject.GetComponent<Contr> ();
+			if (cn != null) {
+				GetComponentInChildren<Laser> ().StartShootGun ();
+			} 
+			else {
+				GetComponentInChildren<Laser> ().StopShootGun ();
+			}
+		}
 		if (LeftOrRight == false) {
 			GetComponent<Rigidbody> ().AddRelativeForce (Vector3.forward * speed);
 			Destroy (this.gameObject, 12);
