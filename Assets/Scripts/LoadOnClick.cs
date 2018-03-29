@@ -11,21 +11,42 @@ public class LoadOnClick : MonoBehaviour {
 	public WindowT newUser;
 	public WindowT saveUsers;
 	public Text[] variantSave; 
+	public WindowT fon;
+	public Image process1;
+	public Text percent;
+
 	int NButton;
 
 	int continue1 = 0;
 	void Start()
 	{
+		fon.Close ();
 		newUser.Close ();
 		saveUsers.Close ();
 
+	}
+	IEnumerator Aset(int i, string name)
+	{
+		AsyncOperation operation;
+		if (name == "null") {
+			operation = SceneManager.LoadSceneAsync (i);
+		} else {
+			operation = SceneManager.LoadSceneAsync (name);
+		}
+		while (!operation.isDone) {
+			float load = operation.progress / 0.9f;
+			process1.fillAmount = load;
+			percent.text = string.Format ("{0:0}%", load*100f);
+			yield return null;
+		}
 	}
     public void LoadScene() //кнопка ОК в окне регистрации
     {
 		if(continue1 == 1){continue1 = 0; PlayerPrefs.SetInt ("continue", continue1);} //проверяем, если пользователь щелкнул по продолжить. вернуть значение на 0
 		name = IF.text; //узнаем логин пользователя
 		PlayerPrefs.SetString("NameGame", name); //заносим в реестр
-		SceneManager.LoadScene(2); //грузим сцену
+		fon.Open ();
+		StartCoroutine (Aset (2, "null")); //грузим сцену
     }
 	public void ClikNewGame()
 	{
@@ -65,7 +86,9 @@ public class LoadOnClick : MonoBehaviour {
 	{
 		SaveUsers su = ReadUserWithDisk.ReturnSaveUsers (name); //загружаем его данные
 		name = su.Scene; //узнаем, на какой он сцене
-		SceneManager.LoadScene (name); //загружаем сцену
+		fon.Open ();
+		StartCoroutine (Aset (0, name)); //грузим сцену
+		//SceneManager.LoadScene (name); //загружаем сцену
 	}
 	public void DeleteUser() //удаляем пользователя
 	{

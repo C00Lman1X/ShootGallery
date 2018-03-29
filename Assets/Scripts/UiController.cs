@@ -13,6 +13,10 @@ public class UiController : MonoBehaviour {
 	public int _hit; //переменная для отслеживания количества попаданий
     public int targetCount = 0; // количество противников на сцене
 	public UnityEvent EndLevel;
+	public WindowT fon;
+	public Image process1;
+	public Text percent;
+
 
 
     void Start () {
@@ -20,6 +24,7 @@ public class UiController : MonoBehaviour {
 		//wt.Close ();
 		scoreLabel1.text = _bullets.ToString (); //выводим начальное колличество патронов
 		scoreLabel2.text = _hit.ToString (); //выводим начальное колличество попаданий
+		fon.Close();
 	}
 
 
@@ -49,41 +54,59 @@ public class UiController : MonoBehaviour {
         // TODO: уменьшение жизней
     }
 
-
+	IEnumerator Aset(int i)
+	{
+		AsyncOperation operation = SceneManager.LoadSceneAsync (i);
+		while (!operation.isDone) {
+			float load = operation.progress / 0.9f;
+			process1.fillAmount = load;
+			percent.text = string.Format ("{0:0}%", load*100f);
+			yield return null;
+		}
+	}
     //Переключение между уровнями
 	public void Exit(string i, bool victory) {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
         //string i = SceneManager.GetActiveScene().name;
 		if (i == "1" && victory == true) {
-			SceneManager.LoadScene (3);
+			fon.Open ();
+			StartCoroutine (Aset (3));
 		} 
 		else if (i == "1" && victory == false) {
-			SceneManager.LoadScene (1);
+			fon.Open ();
+			StartCoroutine (Aset (1));
 		} 
 		else if (i == "2" && victory == true) {
-			SceneManager.LoadScene (4);
+			fon.Open ();
+			StartCoroutine (Aset (4));
 		} 
 		else if (i == "2" && victory == false) {
-			SceneManager.LoadScene (3);
+			fon.Open ();
+			StartCoroutine (Aset (3));
 		} 
 		else if (i == "3" && victory == true) {
-			SceneManager.LoadScene (0);
+			fon.Open ();
+			StartCoroutine (Aset (0));
 		} 
 		else if (i == "3" && victory == false) {
-			SceneManager.LoadScene(4);
+			fon.Open ();
+			StartCoroutine (Aset (4));
 		}
         else if (i == "4" && victory == true)
         {
-            SceneManager.LoadScene(0);
+			fon.Open ();
+			StartCoroutine (Aset (0));
         }
         else if (i == "4" && victory == false)
         {
-            SceneManager.LoadScene(5);
+			fon.Open ();
+			StartCoroutine (Aset (5));
         }
         else
         {
-            SceneManager.LoadScene(0);
+			fon.Open ();
+			StartCoroutine (Aset (0));
         }
 	}
 }
