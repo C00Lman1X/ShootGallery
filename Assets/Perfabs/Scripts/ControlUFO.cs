@@ -46,8 +46,8 @@ public class ControlUFO : MonoBehaviour {
 		fwd = transform.TransformDirection (Vector3.right);
 		if (Physics.Raycast (transform.position, fwd, out hit)) {
 			GameObject hitObject = hit.transform.gameObject;
-			Contr cn = hitObject.GetComponent<Contr> ();
-			if (cn != null) {
+			string cn = hitObject.tag;
+			if (cn == "Respawn") {
 				GetComponentInChildren<Laser> ().StartShootGun ();
 			} 
 			else {
@@ -56,11 +56,11 @@ public class ControlUFO : MonoBehaviour {
 		}
 		if (LeftOrRight == false) {
 			GetComponent<Rigidbody> ().AddRelativeForce (Vector3.forward * speed);
-			Destroy (this.gameObject, 12);
+			Destroy (this.gameObject, 10);
 		} 
 		else if (LeftOrRight == true) {
 			GetComponent<Rigidbody> ().AddRelativeForce (-Vector3.forward * speed);
-			Destroy (this.gameObject, 12);
+			Destroy (this.gameObject, 10);
 		}
 	}
 }

@@ -32,19 +32,22 @@ public class Shooter : MonoBehaviour {
 					ControlUFO ufo = hitObject.GetComponent<ControlUFO> ();
                     Barreling barell = hitObject.GetComponent<Barreling>();//проверяем есть ли метод Barreling
                     BarrelingExplosion barellExploion = hitObject.GetComponent<BarrelingExplosion>();//проверяем есть ли метод BarrelingExplosion
-                if (target != null) {
-						iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
-						target.ReactToHit ();
-					} else if (ufo != null) {
-						iuc.EnemyHit ();
-						ufo.ReactToHit1 ();
-					} else if (barell != null) {
-						iuc.EnemyHit ();
-                        barell.ReactToHitBarrel ();
-					} else if (barellExploion != null) {
-                        iuc.EnemyHit();
-                        barellExploion.ReactToHitBarrelExplosion ();
-                }
+				    MovementBall moveBall = hitObject.GetComponent<MovementBall>();
+				if (target != null) {
+					iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
+					target.ReactToHit ();
+				} else if (ufo != null) {
+					iuc.EnemyHit ();
+					ufo.ReactToHit1 ();
+				} else if (barell != null) {
+					iuc.EnemyHit ();
+					barell.ReactToHitBarrel ();
+				} else if (barellExploion != null) {
+					iuc.EnemyHit ();
+					barellExploion.ReactToHitBarrelExplosion ();
+				} else if (moveBall != null) {
+					moveBall.BallRotation ();
+				}
 				}
 			}
     }

@@ -16,8 +16,7 @@ public class UiController : MonoBehaviour {
 	public WindowT fon;
 	public Image process1;
 	public Text percent;
-
-
+	public bool WinScene5 = false;
 
     void Start () {
 		
@@ -87,7 +86,7 @@ public class UiController : MonoBehaviour {
 		} 
 		else if (i == "3" && victory == true) {
 			fon.Open ();
-			StartCoroutine (Aset (0));
+			StartCoroutine (Aset (5));
 		} 
 		else if (i == "3" && victory == false) {
 			fon.Open ();
@@ -96,13 +95,23 @@ public class UiController : MonoBehaviour {
         else if (i == "4" && victory == true)
         {
 			fon.Open ();
-			StartCoroutine (Aset (0));
+			StartCoroutine (Aset (6));
         }
         else if (i == "4" && victory == false)
         {
 			fon.Open ();
 			StartCoroutine (Aset (5));
         }
+		else if (i == "5" && victory == true)
+		{
+			fon.Open ();
+			StartCoroutine (Aset (0));
+		}
+		else if (i == "5" && victory == false)
+		{
+			fon.Open ();
+			StartCoroutine (Aset (6));
+		}
         else
         {
 			fon.Open ();

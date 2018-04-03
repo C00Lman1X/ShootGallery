@@ -24,6 +24,7 @@ public class MouseLook : MonoBehaviour {
     }
 	
 	void Update () {
+		
 			rotationAngles.y = Mathf.Clamp (rotationAngles.y + Input.GetAxis ("Mouse X") * sensitivitHor, minHor, maxHor);
 			rotationAngles.x = Mathf.Clamp (rotationAngles.x - Input.GetAxis ("Mouse Y") * sensitivitVert, minVert, maxVert);
 			transform.eulerAngles = rotationAngles;
@@ -34,7 +35,8 @@ public class MouseLook : MonoBehaviour {
 				renderer.enabled = true;
 				target.transform.position = hit.point;
 			} else {
-				SpriteRenderer renderer = target.GetComponent<SpriteRenderer> ();
+				
+			    SpriteRenderer renderer = target.GetComponent<SpriteRenderer> ();
 			    renderer.enabled = false;
 			}
     }
