@@ -59,15 +59,16 @@ public class Menu : MonoBehaviour {
 
 	public void Load() //загрузка сохраненных данных
 	{
+		
 		nameUser = PlayerPrefs.GetString ("NameGame");
-		SaveUsers su = ReadUserWithDisk.ReturnSaveUsers (nameUser);
-		//задаем параметры
-		GetComponent<UiController> ()._hit = su.Hit; 
-		GetComponent<UiController> ()._bullets = su.Bullet;
-		GetComponent<MyTimer> ().startMinute = su.Minute;
-		GetComponent<MyTimer> ().startSecond = su.Second;
-		GetComponent<UiController>().scoreLabel1.text = su.Bullet.ToString(); //отображаем значения для пользователя
-		GetComponent<UiController>().scoreLabel2.text = su.Hit.ToString();
+		//SaveUsers su = ReadUserWithDisk.ReturnSaveUsers (nameUser);
+		//задаем параметры 
+		GetComponent<UiController> ()._hit = LoadOnClick.su.Hit;//su.Hit; 
+		GetComponent<UiController> ()._bullets =LoadOnClick.su.Bullet;  //su.Bullet;
+		GetComponent<MyTimer> ().startMinute = LoadOnClick.su.Minute; //su.Minute;
+		GetComponent<MyTimer> ().startSecond = LoadOnClick.su.Second;//su.Second;
+		GetComponent<UiController>().scoreLabel1.text =LoadOnClick.su.Bullet.ToString();  //su.Bullet.ToString(); //отображаем значения для пользователя
+		GetComponent<UiController>().scoreLabel2.text = LoadOnClick.su.Hit.ToString(); //su.Hit.ToString();
 	}
 
 	public void ExitMenu() //выходим в главное меню

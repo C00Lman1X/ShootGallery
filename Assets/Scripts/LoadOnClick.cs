@@ -14,7 +14,7 @@ public class LoadOnClick : MonoBehaviour {
 	public WindowT fon;
 	public Image process1;
 	public Text percent;
-
+	static public SaveUsers su; //для загрузки данных в скрипте Menu.Load() без вторичного считывания с файла
 	int NButton;
 
 	int continue1 = 0;
@@ -60,7 +60,7 @@ public class LoadOnClick : MonoBehaviour {
 		bool contrl = Directory.Exists (Application.dataPath + "/Saves"); //проверяем, есть ли папка Saves
 		string way = Application.dataPath + "/Saves", file;
 		if (contrl == true) {
-			string[] user = Directory.GetFiles (Application.dataPath + "/Saves/", "*.sv", SearchOption.TopDirectoryOnly);//считываем с директории все файлы
+			string[] user = Directory.GetFiles (Application.dataPath + "/Saves/", "*.sv", SearchOption.TopDirectoryOnly);//считываем с директория все файлы
 			int j = user.Length, timevalue; string timename; //рабочие переменные
 			for (int i = 0; i < j; i++) {
 				//ниже способ узнать таки имя файла без пути и расширения
@@ -84,7 +84,7 @@ public class LoadOnClick : MonoBehaviour {
 
 	public void Choose() //если выбрали пользователя
 	{
-		SaveUsers su = ReadUserWithDisk.ReturnSaveUsers (name); //загружаем его данные
+		su = ReadUserWithDisk.ReturnSaveUsers (name); //загружаем его данные
 		name = su.Scene; //узнаем, на какой он сцене
 		fon.Open ();
 		StartCoroutine (Aset (0, name)); //грузим сцену

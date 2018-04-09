@@ -95,7 +95,7 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 					"Осторожнее с низколетящими тарелками. Ты находишся в полезрения их приборов, а значит тебя постараются подстрелить!";
 			} 
 			else if (ButtonOkOr == 1){
-				if (this.GetComponent<UiController> ()._hit >= 15) {
+				if (this.GetComponent<UiController> ()._hit >= 10) {
 					instr.text = "Третий уровень пройден! Твой результат: сбитых тарелок " + this.GetComponent<UiController> ()._hit;
 					victory = true;
 				} 

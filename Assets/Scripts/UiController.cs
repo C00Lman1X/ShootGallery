@@ -18,6 +18,7 @@ public class UiController : MonoBehaviour {
 	public Text percent;
 	public bool WinScene5 = false;
 
+
     void Start () {
 		
 		//wt.Close ();

@@ -9,6 +9,8 @@ public class Fire : MonoBehaviour {
     void Start () {
         fg.OffFire(); //выключаем MuzzleFlash
         //GameObject.Find("MuzzleFlash").SetActive(true);
+
+
     }
 
 
