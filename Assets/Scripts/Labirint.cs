@@ -4,173 +4,128 @@ using UnityEngine;
 
 public class Labirint : MonoBehaviour {
 	
-	public GameObject [] wall = new GameObject[35]; //массив для хранения ссылок на стены в лабиринте
-	//массив для расчета пути 
-	int[,] massiv = {{-1, 1, 0, 2, 0, 3, 0, 4, 0, 5}, {6, -1, 7, -1, 8, -1, 9, -1, 10, -1}, {0, 11, 0, 12, 0, 13, 0, 14, 0, 15}, {16, -1, 17, -1, 18, -1, 19, -1, 20, -1}, {0, 21, 0, 22, 0, 23, 0, 24, 0, 25}, {26, -1, 27, -1, 28, -1, 29, -1, 30, -1}, {0, 31, 0, 32, 0, 33, 0, 34, 0, 35}};
+	public GameObject wall; //массив для хранения ссылок на стены в лабиринте
+	int [,] massiv = new int[11,14];
+	int [] work = new int[14];
 
-	// Use this for initialization
 	void Start () {
-		int choice = 0, i = 0, j = 0;
-
-		//задаем начальную точку входа в лабиринт
-		choice = Random.Range (1, 3);
-		if (choice == 1) {
-			i = 0; j = 1; 
-			Work (i, j); // удаляем стену со сцены
-		} 
-		else if (choice == 2) {
-			i = 1; j = 0;
-			Work (i, j);
+		int number = 1;
+		for (int i = 0; i < 14; i++) {
+			work [i] = number;
+			number++;
 		}
-		Way(i, j, choice);
-		if (wall [33] != null) {
-			Destroy (wall [33]);
-		}
-		if (wall [34] != null) {
-			Destroy (wall [34]);
-		}
-	}
-
-	void Work(int i, int j) //метод для поиска и удаления стен
-	{
-		int choice;
-		choice = massiv [i, j];
-		massiv [i, j] = -1;
-		if (choice > 0) {
-			for (int l = 0; l < 35; l++) {
-				if (wall [i] != null) {
-					if (choice.ToString () == wall [l].name) {
-						Destroy (wall [l]);
+		number = 1;
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 14; j++) {
+				if ((i % 2) == 0) {
+					if (j == 13) {
+						massiv [i, j] = 0;
+					} else {
+						massiv [i, j] = number;
+						number++;
 					}
+				} else {
+					massiv [i, j] = number;
+					number++;
 				}
 			}
-		} 
+		}
+		for (int i = 0; i < 10; i+= 2) {
+			VerticalWalls (i);
+			HorizontalWalls (i);
+			Line ();
+		}
+		//VerticalWalls (8);
+		//HorizontalWalls (8);
+		End (10);
 	}
 
-	void Way(int i, int j, int choice){
-		//цикл для расчета пути
-		while (choice != 8) {
-			if (i == 6) {  // когда мы дошли до нижней стенки
-				j++;
-				Work (i, j);
+	void HorizontalWalls(int i)
+	{
+		int next, start = 0, end = work[13];
+		for (int j = 0; j < 13; j++) {
+			next = j + 1;
+			if (work [j] != work [next]) {
+				Multitude (start, i, j);
+				start = next;
+			} 
+		}
+		if (work [12] != end) {
+			DeleteWall (++i, 13);
+		}
+
+	}
+
+	void Multitude(int start, int i, int j)
+	{
+		i++; 
+		if (start == j) {
+			DeleteWall (i, j);
+		} else {
+			for (int g = start; g <= j; g++) {
+				if (Random.Range (1, 3) < 2) {
+					DeleteWall (i, g);
+				} else {
+					work [g] = 0;
+				}
 			}
-			choice = Step (i, j); // выбираем в каком направлении двигаться
-			if (choice == 1) { //можно двигаться только влево
-				j--;
-				Work (i, j);
-			} else if (choice == 2) {//можно двигаться только вправо
-				j++;
-				Work (i, j);
-			} else if (choice == 3) {//можно двигаться только вниз
-				i++;
-				Work (i, j);
-			} else if (choice == 4) { //можно двигаться налево или направо
-				choice = Random.Range (1, 3);
-				if (choice == 1) {
-					j--;
-					Work (i, j);
-				} else {
-					j++;
-					Work (i, j);
-				}
-			} else if (choice == 5) { //можно двигаться налево или вниз
-				choice = Random.Range (1, 3);
-				if (choice == 1) {
-					j--;
-					Work (i, j);
-				} else {
-					i++;
-					Work (i, j);
-				}
-			} else if (choice == 6) { //можно двигаться направо или вниз
-				choice = Random.Range (1, 3);
-				if (choice == 1) {
-					j++;
-					Work (i, j);
-				} else {
-					i++;
-					Work (i, j);
-				}
-			} else if (choice == 7) { // можно двигаться вниз, направо или налево
-				choice = Random.Range (1, 4);
-				if (choice == 1) {
-					j--;
-					Work (i, j);
-				} else if (choice == 2) {
-					j++;
-					Work (i, j);
-				} else {
-					i++;
-					Work (i, j);
+		}
+
+		int contrl_false = 0, count = 0;
+		for (int g = start; g <= j; g++) {
+			if (work [g] < 0) {
+				contrl_false++; count++;
+			}
+		}
+		if (contrl_false == count) {
+			DeleteWall(i, Random.Range(start, ++j));
+		}
+	}
+	void VerticalWalls(int i)
+	{
+		int next;
+		for (int j = 0; j < 13; j++) {
+			next = j + 1;
+			if (work [j] != work [next]) {
+				if (Random.Range (1, 3) < 2) {
+					DeleteWall (i, j);
+					work [next] = work [j];
 				} 
 			} 
 		}
 	}
-	int Step(int i, int j) // метод для определения в какую сторону двигаться
-	{
-		if (Left (i, j) & !Right (i, j) & !Bottom (i, j)) {
-			return 1;
-		} else if (!Left (i, j) && Right (i, j) && !Bottom (i, j)) {
-			return 2;
-		} else if (!Left (i, j) && !Right (i, j) && Bottom (i, j)) {
-			return 3;
-		} else if (Left (i, j) && Right (i, j) && !Bottom (i, j)) {
-			return 4;
-		} else if (Left (i, j) && !Right (i, j) && Bottom (i, j)) {
-			return 5;
-		} else if (!Left (i, j) && Right (i, j) && Bottom (i, j)) {
-			return 6;
-		} else if (Left (i, j) && Right (i, j) && Bottom (i, j)) {
-			return 7;
-		} else
-			return 8;
-	}
 
-	bool Left(int i, int j) //определяем, можно ли двигаться налево
+	void Line()
 	{
-		bool flag = false;
-		if (j > 0) {
-			j--;
-			if (massiv [i, j] != -1) {
-				flag = true;
+		int number = 1;
+		for (int j = 0; j < 14; j++) {
+			if (work [j] == 0) {
+				work [j] = number;
+				number++;
+			} else {
+				number = work [j];
+				number++;
 			}
 		}
-		return flag;
 	}
-
-	bool Right(int i, int j) //определяем, можно ли двигаться направо
+	void End(int i)
 	{
-		bool flag = false;
-		if (j < 4) {
-			j++;
-			if (massiv [i, j] != -1) {
-				if (massiv [i, j] == 5) {
-					flag = false;
-				} else if (massiv [i, j] == 15) {
-					flag = false;
-				} else if (massiv [i, j] == 25) {
-					flag = false;
-				} else {
-					flag = true;
-				}
+		int next = 0;
+		for (int j = 0; j < 13; j++) {
+			next = j + 1;
+			if (work [j] != work [next]) {
+				DeleteWall (i, j);
+				work [next] = work [j];
 			}
-		} 
-		return flag;
-	}
-
-	bool Bottom(int i, int j) //определяем, можно ли двигаться вниз
-	{
-		bool flag = false;
-		if (i < 6) {
-			i++;
-			if (massiv [i, j] != -1)
-				flag = true;
-
 		}
-		return flag;
+	}
+	void DeleteWall(int i, int j) //метод для поиска и удаления стен
+	{
+		wall = GameObject.Find(massiv[i,j].ToString());
+		if (wall != null) {
+			Destroy (wall );
+		}
 	}
 
-
-	// Update is called once per frame
 
 }
