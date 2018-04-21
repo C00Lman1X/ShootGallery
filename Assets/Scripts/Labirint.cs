@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Labirint : MonoBehaviour {
-	
+	//Используется алгоритм генерации лабиринта Эллера
 	public GameObject wall; //массив для хранения ссылок на стены в лабиринте
 	int [,] massiv = new int[11,14];
 	int [] work = new int[14];
+
 
 	void Start () {
 		int number = 1;
@@ -35,55 +36,32 @@ public class Labirint : MonoBehaviour {
 			HorizontalWalls (i);
 			Line ();
 		}
-		//VerticalWalls (8);
-		//HorizontalWalls (8);
-		End (10);
+		VerticalWalls (10);
+		End ();
 	}
 
 	void HorizontalWalls(int i)
 	{
-		int next, start = 0, end = work[13];
-		for (int j = 0; j < 13; j++) {
-			next = j + 1;
-			if (work [j] != work [next]) {
-				Multitude (start, i, j);
-				start = next;
-			} 
-		}
-		if (work [12] != end) {
-			DeleteWall (++i, 13);
-		}
-
-	}
-
-	void Multitude(int start, int i, int j)
-	{
-		i++; 
-		if (start == j) {
-			DeleteWall (i, j);
-		} else {
-			for (int g = start; g <= j; g++) {
+		int top = i, next;
+		i++;
+		for (int j = 0; j < 14; j++) {
+			if (massiv [top, j] < 0) {
 				if (Random.Range (1, 3) < 2) {
-					DeleteWall (i, g);
+					DeleteWall (i, j);
 				} else {
-					work [g] = 0;
+					work [j] = 0;
 				}
+			} else {
+				DeleteWall (i, j);
 			}
 		}
 
-		int contrl_false = 0, count = 0;
-		for (int g = start; g <= j; g++) {
-			if (work [g] < 0) {
-				contrl_false++; count++;
-			}
-		}
-		if (contrl_false == count) {
-			DeleteWall(i, Random.Range(start, ++j));
-		}
 	}
+		
 	void VerticalWalls(int i)
 	{
-		int next;
+		
+		int next; int h = 1;
 		for (int j = 0; j < 13; j++) {
 			next = j + 1;
 			if (work [j] != work [next]) {
@@ -108,15 +86,45 @@ public class Labirint : MonoBehaviour {
 			}
 		}
 	}
-	void End(int i)
+	void End()
 	{
-		int next = 0;
-		for (int j = 0; j < 13; j++) {
-			next = j + 1;
-			if (work [j] != work [next]) {
-				DeleteWall (i, j);
-				work [next] = work [j];
+		int wall = 0;
+		for (int j = 0; j < 14; j++) {
+			for (int i = 0; i < 11; i+= 2) {
+				if (i == 10) {
+					if (wall > 3) {
+						DeleteWall (i, j);
+						//DeleteSuperfluousWalls (i, j, wall);
+						wall = 0;
+					}
+				}
+				if (massiv [i, j] > -1) {
+					wall++;
+				} else if(massiv[i, j] == -1){
+					if (wall > 3) {
+						int i1 = i - 1;
+						DeleteWall (i1, j);
+						//DeleteSuperfluousWalls (i1, j, wall);
+						wall = 0;
+					} else {
+						wall = 0;
+					}
+				}
 			}
+			wall = 0;
+		}
+	}
+
+	void DeleteSuperfluousWalls(int i, int j, int wall)
+	{
+		int contrl = 0;
+		int h = Random.Range (1, ++wall);
+		while (contrl > wall) {
+			contrl++;
+			if (contrl == h) {
+				DeleteWall (i, j);
+			}
+			i -= 2;
 		}
 	}
 	void DeleteWall(int i, int j) //метод для поиска и удаления стен
@@ -124,6 +132,7 @@ public class Labirint : MonoBehaviour {
 		wall = GameObject.Find(massiv[i,j].ToString());
 		if (wall != null) {
 			Destroy (wall );
+			massiv [i, j] = -1;
 		}
 	}
 
