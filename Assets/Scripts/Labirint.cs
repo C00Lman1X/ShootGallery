@@ -31,6 +31,8 @@ public class Labirint : MonoBehaviour {
 				}
 			}
 		}
+
+		Walls ();
 		for (int i = 0; i < 10; i+= 2) {
 			VerticalWalls (i);
 			HorizontalWalls (i);
@@ -40,6 +42,39 @@ public class Labirint : MonoBehaviour {
 		End ();
 	}
 
+	void Walls(){
+		int middle = Random.Range (0, 11);
+		while((middle % 2) == 0){
+			middle = Random.Range(0, 11);
+		}
+		int variant = 0, j = 0, i = 1;
+		DeleteWall (middle, 0);
+		while(j < 14)  {
+			if (middle == 0) {
+				++i;
+				++middle;
+				DeleteWall (middle, j);
+			} else if (middle == 10) {
+				++i;
+				--middle;
+				DeleteWall (middle, j);
+			} else {
+				++i;
+				variant = Random.Range (1, 3);
+				if (variant > 1) {
+					--middle;
+					DeleteWall (middle, j);
+				} else {
+					++middle;
+					DeleteWall(middle, j);
+				} 
+			}
+			if (i > 1) {
+				i = 0;
+				j++;
+			}
+		}
+	}
 	void HorizontalWalls(int i)
 	{
 		int top = i, next;
@@ -94,7 +129,6 @@ public class Labirint : MonoBehaviour {
 				if (i == 10) {
 					if (wall > 3) {
 						DeleteWall (i, j);
-						//DeleteSuperfluousWalls (i, j, wall);
 						wall = 0;
 					}
 				}
@@ -104,7 +138,6 @@ public class Labirint : MonoBehaviour {
 					if (wall > 3) {
 						int i1 = i - 1;
 						DeleteWall (i1, j);
-						//DeleteSuperfluousWalls (i1, j, wall);
 						wall = 0;
 					} else {
 						wall = 0;
@@ -115,18 +148,7 @@ public class Labirint : MonoBehaviour {
 		}
 	}
 
-	void DeleteSuperfluousWalls(int i, int j, int wall)
-	{
-		int contrl = 0;
-		int h = Random.Range (1, ++wall);
-		while (contrl > wall) {
-			contrl++;
-			if (contrl == h) {
-				DeleteWall (i, j);
-			}
-			i -= 2;
-		}
-	}
+
 	void DeleteWall(int i, int j) //метод для поиска и удаления стен
 	{
 		wall = GameObject.Find(massiv[i,j].ToString());
