@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Labirint : MonoBehaviour {
 	//Используется алгоритм генерации лабиринта Эллера
-	public GameObject wall; //массив для хранения ссылок на стены в лабиринте
+	public GameObject wall1; //массив для хранения ссылок на стены в лабиринте
+	public GameObject wall2;
+	private GameObject _wall;
 	int [,] massiv = new int[11,14];
 	int [] work = new int[14];
-
 
 	void Start () {
 		int number = 1;
@@ -31,7 +32,6 @@ public class Labirint : MonoBehaviour {
 				}
 			}
 		}
-
 		Walls ();
 		for (int i = 0; i < 10; i+= 2) {
 			VerticalWalls (i);
@@ -40,8 +40,49 @@ public class Labirint : MonoBehaviour {
 		}
 		VerticalWalls (10);
 		End ();
+		HorWalls ();
+		VertWalls ();
 	}
 
+	void HorWalls(){
+		float X0 = -25.098f, Y0 = 5.259152f, Z0 = 6.294358f;
+		float x = X0, y = 0, z = 0;
+		for (int i = 0; i < 11; i+= 2) {
+			for (int j = 0; j < 13; j++) {
+					if (massiv [i, j] > -1) {
+						_wall = Instantiate (wall1) as GameObject;
+						_wall.transform.position = new Vector3 (x, Y0, Z0);
+						x += 3.996f;
+					} else {
+						x += 3.996f;
+					}
+				}
+				X0 += 0.018f;
+				Y0 += -2.946699f;
+				Z0 += -3.55841f;
+				x = X0;
+			}
+	}
+
+	void VertWalls(){
+		float X0 = -26.952f, Y0 = 3.732578f, Z0 = 4.677301f;
+		float x = X0, y = 0, z = 0;
+		for (int i = 1; i < 11; i+=2) {
+			for (int j = 0; j < 14; j++) {
+				if (massiv [i, j] > -1) {
+					_wall = Instantiate (wall2) as GameObject;
+					_wall.transform.position = new Vector3 (x, Y0, Z0);
+					x += 3.996f;
+				} else {
+					x += 3.996f;
+				}
+			}
+			X0 += 0.018f;
+			Y0 += -2.9466989f;
+			Z0 += -3.55841f;
+			x = X0;
+		}
+	}
 	void Walls(){
 		int middle = Random.Range (0, 11);
 		while((middle % 2) == 0){
@@ -149,13 +190,14 @@ public class Labirint : MonoBehaviour {
 	}
 
 
-	void DeleteWall(int i, int j) //метод для поиска и удаления стен
+	void DeleteWall(int i, int j) 
 	{
-		wall = GameObject.Find(massiv[i,j].ToString());
+		massiv [i, j] = -1;
+		/*wall = GameObject.Find(massiv[i,j].ToString());
 		if (wall != null) {
 			Destroy (wall );
 			massiv [i, j] = -1;
-		}
+		}*/
 	}
 
 
