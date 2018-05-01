@@ -21,9 +21,14 @@ public class MovementBall : MonoBehaviour {
 
 	}
 
-	public void BallRotation()
+	public void BallRotationR()
 	{
 		transform.Rotate (0, 90f, 0);
+	}
+
+	public void BallRotationL()
+	{
+		transform.Rotate (0, -90f, 0);
 	}
 	// Update is called once per frame
 	void Update () {

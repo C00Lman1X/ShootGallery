@@ -46,9 +46,21 @@ public class Shooter : MonoBehaviour {
 					iuc.EnemyHit ();
 					barellExploion.ReactToHitBarrelExplosion ();
 				} else if (moveBall != null) {
-					moveBall.BallRotation ();
+					moveBall.BallRotationR ();
 				}
 				}
 			}
-    }
+		if (Input.GetMouseButtonDown (1)) {
+			RaycastHit hit;
+			Vector3 fwd = transform.TransformDirection (Vector3.forward);
+			if (Physics.Raycast (transform.position, fwd, out hit)) {
+
+				GameObject hitObject = hit.transform.gameObject;
+				MovementBall moveBall = hitObject.GetComponent<MovementBall>();
+				if (moveBall != null) {
+					moveBall.BallRotationL ();
+				}
+			}
+		}
+    } 
 }

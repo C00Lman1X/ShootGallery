@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CylinderSpawn : MonoBehaviour {
 
@@ -19,5 +20,15 @@ public class CylinderSpawn : MonoBehaviour {
 
             GetComponent<AudioSource>().PlayOneShot(Fire); //проигрываем звук выстрела
         }
+		if (Input.GetMouseButtonDown (1)) {
+			if (SceneManager.GetActiveScene ().name == "5") {
+				Transform CylinderInstance = (Transform) Instantiate(cylinder, GameObject.Find("CylinderSpawnPoint").transform.position, Quaternion.identity); // находим GameObjec "CylinderSpawnPoint"  с позицией нашей гильзы
+				CylinderMovement cylinderMovementCS = cylinder.GetComponent<CylinderMovement>(); //снимаем скрипт с гильзы
+				cylinderMovementCS._transform = transform; //передаем позицию нашей гильзы
+				//cylinder.transform.up = -transform.forward;
+
+				GetComponent<AudioSource>().PlayOneShot(Fire); //проигрываем звук выстрела
+			}
+		}
     }
 }

@@ -10,10 +10,10 @@ public class AutoCam : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	/*void Update () {
 		float f = (Screen.width * 60) / 1366f;
 		float g = (Screen.height * 60) / 768f;
 		float d = f + g;
 		Camera.main.fieldOfView = d;
-	} 
+	} */
 }
