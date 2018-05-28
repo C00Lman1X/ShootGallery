@@ -5,6 +5,10 @@ using DG.Tweening;
 
 public class ReactiveTarget : MonoBehaviour {
 	public ParticleSystem part;
+
+    private bool dead = false;
+    public bool IsDead() { return dead; }
+
 	public void ReactToHit ()
 	{
 		StartCoroutine (Die ());
@@ -12,10 +16,12 @@ public class ReactiveTarget : MonoBehaviour {
 
 	private IEnumerator Die ()
 	{
+        dead = true;
+
         if (part != null)
             part.Play();
         else
-        transform.DOShakePosition(0.5f);
+            transform.DOShakePosition(0.5f);
 		yield return new WaitForSeconds (0.5f);
 		Destroy (this.gameObject);
 

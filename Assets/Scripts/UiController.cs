@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class UiController : MonoBehaviour {
 	public Text scoreLabel1; //объект, предназначенный для работы с текстом на UI
 	public Text scoreLabel2;
+    public Image redScreen;
 	public WindowT wt; //переменая для работы с окном сообщения о завершении уровня
 	public int _bullets; //переменая для хранения значения пуль
 	public int _hit; //переменная для отслеживания количества попаданий
@@ -27,6 +28,10 @@ public class UiController : MonoBehaviour {
 		fon.Close();
 	}
 
+    void Update() {
+        if (redScreen.color.a > 0f)
+            redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, redScreen.color.a -  0.02f);
+    }
 
 	public void EnemyBul () { //уменьшаем их при каждом выстреле
 		if (_bullets != 0) {
@@ -51,7 +56,12 @@ public class UiController : MonoBehaviour {
 
     public void HitCharacter(float damage)
     {
-        // TODO: уменьшение жизней
+        redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, 0.5f);
+
+        var slider = gameObject.GetComponentInChildren<Slider>();
+        slider.value = Mathf.Max(0f, slider.value - damage);
+        if (slider.value <= 0f)
+            EndLevel.Invoke();
     }
 
 	IEnumerator Aset(int i)

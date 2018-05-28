@@ -18,13 +18,22 @@ public class BallController : MonoBehaviour {
     private Vector3 minRange = new Vector3(-8f, 1f, 0f);
     private Vector3 maxRange = new Vector3(8f, 4f, 17f);
 
+    private ReactiveTarget reactiveTarget;
+
     void Start () {
         transform.DOMove(EndPosition, 0.5f);
         startTime = Time.time;
+
+        ui = GameObject.Find("Canvas").GetComponent<UiController>();
+        reactiveTarget = gameObject.GetComponent<ReactiveTarget>();
     }
 	
     void Update ()
     {
+        if (reactiveTarget.IsDead())
+            return;
+
+
         if (notFloatingTime > 0)
             notFloatingTime -= Time.deltaTime;
         else
