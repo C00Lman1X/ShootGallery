@@ -196,6 +196,16 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
                 }
             }
         }
+
+        if (i == "8")
+        {
+            if (ButtonOkOr == 0)
+                instr.text = "восьмой уровень...\nтакие дела";
+            else
+            {
+                instr.text = "ну вот и все";
+            }
+        }
     }
 
 	public void EndLevel1() //функция, получающая сообщение, что уровень пора заканчивать (толи время истекло, толи еще что)

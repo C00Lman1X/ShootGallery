@@ -79,63 +79,65 @@ public class UiController : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.None;
 		Cursor.visible = true;
         //string i = SceneManager.GetActiveScene().name;
-		if (i == "1" && victory == true) {
-			fon.Open ();
-			StartCoroutine (Aset (3));
-		} 
-		else if (i == "1" && victory == false) {
-			fon.Open ();
-			StartCoroutine (Aset (1));
-		} 
-		else if (i == "2" && victory == true) {
-			fon.Open ();
-			StartCoroutine (Aset (4));
-		} 
-		else if (i == "2" && victory == false) {
-			fon.Open ();
-			StartCoroutine (Aset (3));
-		} 
-		else if (i == "3" && victory == true) {
-			fon.Open ();
-			StartCoroutine (Aset (5));
-		} 
-		else if (i == "3" && victory == false) {
-			fon.Open ();
-			StartCoroutine (Aset (4));
-		}
-        else if (i == "4" && victory == true)
+        fon.Open();
+        if (i == "1")
         {
-			fon.Open ();
-			StartCoroutine (Aset (6));
+            if (victory)
+                StartCoroutine (Aset (3));
+            else
+                StartCoroutine(Aset(1));
         }
-        else if (i == "4" && victory == false)
+		else if (i == "2")
         {
-			fon.Open ();
-			StartCoroutine (Aset (5));
+            if (victory)
+                StartCoroutine (Aset (4));
+            else
+                StartCoroutine(Aset(3));
         }
-		else if (i == "5" && victory == true)
-		{
-			fon.Open ();
-			StartCoroutine (Aset (0));
-		}
-		else if (i == "5" && victory == false)
-		{
-			fon.Open ();
-			StartCoroutine (Aset (6));
-		}
-		else if (i == "6" && victory == true)
-		{
-			fon.Open ();
-			StartCoroutine (Aset (0));
-		}
-		else if (i == "6" && victory == false)
-		{
-			fon.Open ();
-			StartCoroutine (Aset (7));
-		}
+        else if (i == "3")
+        {
+            if (victory)
+                StartCoroutine (Aset (5));
+            else
+                StartCoroutine(Aset(4));
+        }
+        else if (i == "4")
+        {
+            if (victory)
+                StartCoroutine (Aset (6));
+            else
+                StartCoroutine(Aset(5));
+        }
+		else if (i == "5")
+        {
+            if (victory)
+                StartCoroutine (Aset (7));
+            else
+                StartCoroutine(Aset(6));
+        }
+		else if (i == "6")
+        {
+            if (victory)
+                StartCoroutine(Aset(8));
+            else
+                StartCoroutine(Aset(7));
+        }
+        else if (i == "7")
+        {
+            if (victory)
+                StartCoroutine(Aset(9));
+            else
+                StartCoroutine(Aset(8));
+        }
+        else if (i == "8")
+        {
+            if (victory)
+                StartCoroutine(Aset(0));
+            else
+                StartCoroutine(Aset(9));
+        }
         else
         {
-			fon.Open ();
 			StartCoroutine (Aset (0));
         }
 	}
