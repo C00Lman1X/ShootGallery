@@ -123,6 +123,16 @@ public class UiController : MonoBehaviour {
 			fon.Open ();
 			StartCoroutine (Aset (6));
 		}
+		else if (i == "6" && victory == true)
+		{
+			fon.Open ();
+			StartCoroutine (Aset (0));
+		}
+		else if (i == "6" && victory == false)
+		{
+			fon.Open ();
+			StartCoroutine (Aset (7));
+		}
         else
         {
 			fon.Open ();

@@ -33,6 +33,7 @@ public class Shooter : MonoBehaviour {
                     Barreling barell = hitObject.GetComponent<Barreling>();//проверяем есть ли метод Barreling
                     BarrelingExplosion barellExploion = hitObject.GetComponent<BarrelingExplosion>();//проверяем есть ли метод BarrelingExplosion
 				    MovementBall moveBall = hitObject.GetComponent<MovementBall>();
+				    HitLamp hitLamp = hitObject.GetComponent<HitLamp> ();
 				if (target != null) {
 					iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
 					target.ReactToHit ();
@@ -47,7 +48,11 @@ public class Shooter : MonoBehaviour {
 					barellExploion.ReactToHitBarrelExplosion ();
 				} else if (moveBall != null) {
 					moveBall.BallRotationR ();
+				} else if (hitLamp != null) {
+					iuc.EnemyHit ();
+					hitLamp.Hit ();
 				}
+
 				}
 			}
 		if (Input.GetMouseButtonDown (1)) {

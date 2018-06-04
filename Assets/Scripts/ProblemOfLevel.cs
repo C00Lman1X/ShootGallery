@@ -151,6 +151,27 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
 				}
 			}
 		}
+		if (i == "6")
+		{ //инструкция для шестого уровня
+			if (ButtonOkOr == 0) {
+				instr.text = "Шестой уровень!\n Твоя задача точно повторить последовательность в которой зажглись фонари.";
+			}
+			else if (ButtonOkOr == 1)
+			{
+				if (this.GetComponent<UiController>().WinScene5 == true)
+				{
+					instr.text = "Шестой уровень пройден!\n У тебя прекрасная память!.";
+					victory = true;
+				}
+				else
+				{
+					instr.text = "Увы,  ты проиграл, но никогда не поздно отыграться! " +
+						"Попробуй еще раз.";
+					victory = false;
+				}
+			}
+		}
+
     }
 
 	public void EndLevel1() //функция, получающая сообщение, что уровень пора заканчивать (толи время истекло, толи еще что)
