@@ -29,7 +29,7 @@ public class UiController : MonoBehaviour {
 	}
 
     void Update() {
-        if (redScreen.color.a > 0f)
+        if (redScreen && redScreen.color.a > 0f)
             redScreen.color = new Color(redScreen.color.r, redScreen.color.g, redScreen.color.b, redScreen.color.a -  0.02f);
     }
 
