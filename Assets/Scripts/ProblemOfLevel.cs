@@ -200,10 +200,20 @@ public class ProblemOfLevel : MonoBehaviour { //класс для постано
         if (i == "8")
         {
             if (ButtonOkOr == 0)
-                instr.text = "восьмой уровень...\nтакие дела";
-            else
+                instr.text = "Восьмой уровень!\n Необходимо попадать в призраков правильным цветом и уничтожить не менее 15.\n Правая кнопка мыши для переключения цвета фонаря. По нецветным призракам можно стрелять любым цветом";
+            else if (ButtonOkOr == 1)
             {
-                instr.text = "ну вот и все";
+                if (this.GetComponent<UiController>()._hit >= 15)
+                {
+                    instr.text = "Восьмой уровень пройден! Твой результат: " + this.GetComponent<UiController>()._hit + " уничтоженных призраков";
+                    victory = true;
+                }
+                else
+                {
+                    instr.text = "Увы, ты проиграл, но никогда не поздно отыграться! " +
+                        "Попробуй еще раз. Твой результат: " + this.GetComponent<UiController>()._hit + " попаданий";
+                    victory = false;
+                }
             }
         }
     }

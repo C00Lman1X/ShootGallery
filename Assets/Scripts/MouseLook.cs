@@ -10,7 +10,6 @@ public class MouseLook : MonoBehaviour {
     public float minHor, maxHor;
 	//
 	public float speed = 10f;
-	Vector3 CD = new Vector3 (0f, 0f, 0f);
 	Transform transObject;
 
 

@@ -19,7 +19,6 @@ public class Shooter : MonoBehaviour {
 			    iuc.EnemyBul (); // вызываем метод в UIController для уменьшения числа пуль
 				if (Physics.Raycast (transform.position, fwd, out hit)) {	
 					GameObject hitObject = hit.transform.gameObject; //получаем объект попадания
-                Debug.Log(hitObject.name);
 					Contr cn = hitObject.GetComponent<Contr> (); //проверяем наличие метода, если есть дырку от пули не создаем
 					if (cn == null && SceneManager.GetActiveScene().name != "8") {
 						GameObject hitObjectP = Instantiate (dec); //создаем отверстие от пули и выравниваем его по нормали
@@ -37,7 +36,16 @@ public class Shooter : MonoBehaviour {
                     BarrelingExplosion barellExploion = hitObject.GetComponent<BarrelingExplosion>();//проверяем есть ли метод BarrelingExplosion
 				    MovementBall moveBall = hitObject.GetComponent<MovementBall>();
 				    HitLamp hitLamp = hitObject.GetComponent<HitLamp> ();
-				if (target != null) {
+					ColoredEnemyController coloredEnemy = hitObject.GetComponent<ColoredEnemyController> ();
+				if (coloredEnemy != null)
+				{
+					int enemyColor = coloredEnemy.GetColor();
+					if (enemyColor == 0 || colorMode == enemyColor)
+					{
+						iuc.EnemyHit ();
+						target.ReactToHit ();
+					}
+				} else if (target != null) {
 					iuc.EnemyHit (); // вызываем метод в UIController для увеличения числа попаданий в мишень
 					target.ReactToHit ();
 				} else if (ufo != null) {
@@ -61,20 +69,16 @@ public class Shooter : MonoBehaviour {
         if (Input.GetMouseButtonDown(1)) {
             if (SceneManager.GetActiveScene().name == "8")
             {
-                if (timeSinceSecondButton > 0.5f)
-                {
-                    colorMode = (colorMode + 1) % 4;
-                    var flashlightObject = GameObject.Find("Flashlight");
-                    var light = flashlightObject.GetComponent<Light>();
-                    switch (colorMode)
-                    {
-                        case 1: light.color = new Color(1f, 0.2f, 0.2f); break;
-                        case 2: light.color = new Color(0.2f, 1f, 0.2f); break;
-                        case 3: light.color = new Color(0.2f, 0.2f, 1f); break;
-                        case 0: light.color = new Color(1f, 1f, 1f); break;
-                    }
-                    timeSinceSecondButton = 0f;
-                }
+				colorMode = (colorMode + 1) % 4;
+				var flashlightObject = GameObject.Find("Flashlight");
+				var light = flashlightObject.GetComponent<Light>();
+				switch (colorMode)
+				{
+					case 1: light.color = new Color(1f, 0.5f, 0.5f); break;
+					case 2: light.color = new Color(0.5f, 1f, 0.5f); break;
+					case 3: light.color = new Color(1f, 1f, 0.5f); break;
+					case 0: light.color = new Color(1f, 1f, 1f); break;
+				}
                 return;
             }
 			RaycastHit hit;
@@ -88,10 +92,5 @@ public class Shooter : MonoBehaviour {
 				}
 			}
 		}
-        else
-        {
-            if (timeSinceSecondButton < 100f)
-                timeSinceSecondButton += Time.deltaTime;
-        }
     } 
 }

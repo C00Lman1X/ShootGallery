@@ -17,14 +17,18 @@ public class ColoredSpawn : MonoBehaviour {
     void SpawnEnemy()
     {
         var enemyObject = Instantiate(EnemyPrefab);
-        var spawnBox = GetComponent<BoxCollider>();
-        float x = spawnBox.center.x + spawnBox.size.x / 2f;
-        float y = spawnBox.center.y + spawnBox.size.y / 2f;
-        float z = spawnBox.center.z + spawnBox.size.z / 2f;
+        var spawnBox = GameObject.Find("SpawnBox").transform;
+        float x = spawnBox.position.x;
+        float y = spawnBox.position.y;
+        float z = spawnBox.position.z;
         enemyObject.transform.position = new Vector3(
-            Random.Range(spawnBox.center.x - spawnBox.size.x / 2f, spawnBox.center.x + spawnBox.size.x / 2f),
-            Random.Range(spawnBox.center.y - spawnBox.size.y / 2f, spawnBox.center.y + spawnBox.size.y / 2f),
-            Random.Range(spawnBox.center.z - spawnBox.size.z / 2f, spawnBox.center.z + spawnBox.size.z / 2f));
+            Random.Range(x - spawnBox.localScale.x / 2f, x + spawnBox.localScale.x / 2f),
+            Random.Range(y - spawnBox.localScale.y / 2f, y + spawnBox.localScale.y / 2f),
+            Random.Range(z - spawnBox.localScale.z / 2f, z + spawnBox.localScale.z / 2f));
+        
+        int color = Random.Range(1, 4);
+        Debug.Log(color);
+        enemyObject.GetComponentInChildren<ColoredEnemyController>().SetColor(color);
     }
 	
 	// Update is called once per frame
